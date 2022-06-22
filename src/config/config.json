@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "test",
-    "database": "test",
-    "host": "127.0.0.1",
+    "username": "yummeal",
+    "password": "tmdgh123",
+    "database": "swuniv",
+    "host": "database-1.cryxcy47oohf.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {
