@@ -1,7 +1,27 @@
 const fs = require('fs');
 const { PythonShell } = require('python-shell');
+const { Problem } = require('../models');
 
 module.exports = {
+  getProblems: async (req, res, next) => {
+    const p = await Problem.findAll();
+
+    res.json(p);
+  },
+  getRecommends: async (req, res, next) => {
+    res.json({});
+  },
+  getCategoryProblem: async (req, res, next) => {
+    const { categoryId } = req.params;    
+
+    const p = await Problem.findAll({
+      where: {
+        category: categoryId
+      }
+    });
+
+    res.json(p);
+  },
   markProblem: async (req, res, next) => {
     // const { answer } = req.body;
 
