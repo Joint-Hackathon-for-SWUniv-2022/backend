@@ -3,6 +3,11 @@ const Sequelize = require('sequelize');
 module.exports = class User extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
+      token: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
       email: {
         type: Sequelize.STRING(40),
         allowNull: true,
@@ -14,7 +19,7 @@ module.exports = class User extends Sequelize.Model {
       },
       nickname: {
         type: Sequelize.STRING(20),
-        allowNull: false,
+        allowNull: true,
         unique: true
       }
     }, {
@@ -30,5 +35,7 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db) {
+    db.User.hasMany(db.Grade);
+    db.User.hasMany(db.Submission);
   }
 }
