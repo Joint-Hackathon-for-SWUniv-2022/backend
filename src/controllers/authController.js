@@ -5,16 +5,19 @@ const { User, Grade } = require('../models');
 
 module.exports = {
   join: async (req, res, next) => {
-    const { token, email, nickname } = req.body;
+    const { email, password, nickname } = req.body;
     
     try {
-      const exUser = await User.findOne({ where: { token } });
+      const exUser = await User.findOne({ where: { email } });
       if (exUser) {
         return res.status(409).send("이미 존재하는 이메일입니다.");
       }
+      const hash = await bcrypt.hash(password, 12);
   
       const u = await User.create({
-        token
+        email,
+        nickname,
+        password: hash,
       });
 
       const score_range = [0, 5, 10, 15];
@@ -36,7 +39,7 @@ module.exports = {
 
       const payload = {
         id: u.id,
-        token: u.token
+        email: u.email,
       };
 
       const jwtToken = await jwt.sign(payload, process.env.secretOrKey, { expiresIn: 86400 });
@@ -52,25 +55,25 @@ module.exports = {
   },
 
   login: async (req, res, next) => {
-    const { token } = req.body;
+    const { email, password } = req.body;
 
     try {
       const exUser = await User.findOne({ 
-        where: { token }, 
+        where: { email }, 
       });
       if (exUser) {
         const result = await bcrypt.compare(password, exUser.password);
         if (result) {
           const payload = {
             id: exUser.id,
-            email: exUser.token,
+            email: exUser.email,
           };
 
-          jwt.sign(payload, process.env.secretOrKey, { expiresIn: 86400 }, (err, jwtToken) => {
+          jwt.sign(payload, process.env.secretOrKey, { expiresIn: 86400 }, (err, token) => {
             return res.json({
               success: true,
               user: exUser,
-              token: `Bearer ${jwtToken}`,
+              token: `Bearer ${token}`,
             });
           });
         } else {
