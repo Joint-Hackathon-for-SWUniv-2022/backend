@@ -12,11 +12,11 @@ module.exports = {
     res.json({});
   },
   getCategoryProblem: async (req, res, next) => {
-    const { categoryId } = req.params;    
+    const { categoryName } = req.params;    
 
     const p = await Problem.findAll({
       where: {
-        category: categoryId
+        category: categoryName
       }
     });
 

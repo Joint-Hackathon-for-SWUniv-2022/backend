@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', problemController.getProblems);
 router.get('/recommend', isLoggedIn, problemController.getRecommends)
-router.get('/:categoryId', problemController.getCategoryProblem);
+router.get('/:categoryName', problemController.getCategoryProblem);
 
 router.post('/mark', problemController.markProblem);
 
