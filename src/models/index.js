@@ -8,6 +8,7 @@ const Grade = require('./grade');
 const Submission = require('./submission');
 const Problem = require('./problem');
 const Solution = require('./solution');
+const Test = require('./test');
 
 const db = {};
 const sequelize = new Sequelize(
@@ -20,17 +21,20 @@ db.Grade = Grade;
 db.Submission = Submission;
 db.Problem = Problem;
 db.Solution = Solution;
+db.Test = Test;
 
 User.init(sequelize);
 Grade.init(sequelize);
 Submission.init(sequelize);
 Problem.init(sequelize);
 Solution.init(sequelize);
+Test.init(sequelize);
 
 User.associate(db);
 Grade.associate(db);
 Submission.associate(db);
 Problem.associate(db);
 Solution.associate(db);
+Test.associate(db);
 
 module.exports = db;
